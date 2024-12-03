@@ -105,7 +105,7 @@ const outerWildsMusic = {
             url: "https://vgmsite.com/soundtracks/outer-wilds-original-soundtrack/kuxadfqoas/26.%20Arrow%20of%20Time.mp3"
         },
         {
-            title: "We Habve Liftoff",
+            title: "We Have Liftoff",
             url: "https://vgmsite.com/soundtracks/outer-wilds-original-soundtrack/tisrntkcct/27.%20We%20Have%20Liftoff.mp3"
         },
         {
