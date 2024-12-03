@@ -1,0 +1,16 @@
+{
+    "manifest_version": 3,
+    "name": "Outer Wilds Music Player",
+    "version": "1.0",
+    "description": "Listen to the beautiful soundtrack of Outer Wilds while browsing",
+    "permissions": [
+        "storage",
+        "activeTab"
+    ],
+    "action": {
+        "default_popup": "popup.html"
+    },
+    "background": {
+        "service_worker": "background.js"
+    }
+}
