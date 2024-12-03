@@ -26,7 +26,7 @@ A Chrome extension that lets you carry the soundtrack of Outer Wilds wherever yo
    - Toggle shuffle mode
    - Toggle loop mode
    - Adjust volume
-4. Use the pop-out button to keep the player visible while browsing. (This is required to listen whilst the extension in minimised)
+4. Use the pop-out button to keep the player visible while browsing. (This is required to listen whilst the extension is minimised)
 
 ## Development
 Built using:
