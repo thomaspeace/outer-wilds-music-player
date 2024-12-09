@@ -16,17 +16,70 @@ document.addEventListener('DOMContentLoaded', async function() {
 
     const response = await chrome.runtime.sendMessage({ action: 'getTracks' });
     
+    const selectAllContainer = document.createElement('div');
+    selectAllContainer.className = 'select-all-container';
+    selectAllContainer.innerHTML = `
+        <button id="selectAllBtn" class="select-btn">Select All</button>
+        <button id="deselectAllBtn" class="select-btn">Deselect All</button>
+    `;
+    trackSelect.insertBefore(selectAllContainer, trackSelect.firstChild);
+
+    const selectAllBtn = document.getElementById('selectAllBtn');
+    const deselectAllBtn = document.getElementById('deselectAllBtn');
+
+    selectAllBtn.addEventListener('click', () => {
+        const checkboxes = trackSelect.querySelectorAll('input[type="checkbox"]');
+        checkboxes.forEach(checkbox => {
+            checkbox.checked = true;
+            selectedTracks.add(parseInt(checkbox.value));
+        });
+        chrome.runtime.sendMessage({ 
+            action: 'updateSelectedTracks', 
+            selectedTracks: Array.from(selectedTracks) 
+        });
+    });
+
+    deselectAllBtn.addEventListener('click', () => {
+        const checkboxes = trackSelect.querySelectorAll('input[type="checkbox"]');
+        checkboxes.forEach(checkbox => {
+            checkbox.checked = false;
+            selectedTracks.delete(parseInt(checkbox.value));
+        });
+        chrome.runtime.sendMessage({ 
+            action: 'updateSelectedTracks', 
+            selectedTracks: Array.from(selectedTracks) 
+        });
+    });
+    
     response.tracks.forEach((track, index) => {
         const div = document.createElement('div');
         div.className = 'track-option';
         div.innerHTML = `
             <input type="checkbox" id="track-${index}" value="${index}">
-            <label for="track-${index}">${track.title}</label>
+            <label for="track-${index}" class="track-label">${track.title}</label>
         `;
         trackSelect.appendChild(div);
 
         selectedTracks.add(index);
         div.querySelector('input').checked = true;
+
+        const label = div.querySelector('label');
+        label.addEventListener('click', (e) => {
+            e.preventDefault();
+            const checkbox = div.querySelector('input');
+            checkbox.checked = !checkbox.checked;
+            
+            if (checkbox.checked) {
+                selectedTracks.add(index);
+            } else {
+                selectedTracks.delete(index);
+            }
+            
+            chrome.runtime.sendMessage({ 
+                action: 'updateSelectedTracks', 
+                selectedTracks: Array.from(selectedTracks) 
+            });
+        });
 
         div.querySelector('input').addEventListener('change', (e) => {
             if (e.target.checked) {
